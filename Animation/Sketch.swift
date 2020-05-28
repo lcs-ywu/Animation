@@ -44,16 +44,15 @@ class Sketch : NSObject {
         //  row is 0, column is 4
         //        board[0][4] = true
         //NOTE: Initial values here
-        board[20][30] = true
-        board[20][31] = true
-        board[20][32] = true
-        board[21][31] = true
-        board[21][32] = true
-        board[21][33] = true
-        
-        board[20][33] = true
-        board[21][34] = true
-        board[22][34] = true
+        board[20][20] = true
+        board[21][20] = true
+        board[22][20] = true
+        board[23][20] = true
+        board[23][21] = true
+        board[23][22] = true
+        board[22][23] = true
+        board[19][21] = true
+        board[19][23] = true
         
     }
     //
