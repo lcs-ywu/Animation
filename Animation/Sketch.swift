@@ -53,7 +53,6 @@ class Sketch : NSObject {
         board[22][23] = true
         board[19][21] = true
         board[19][23] = true
-        
     }
     //
     // This function runs repeatedly, forever, to create the animated effect
@@ -93,18 +92,18 @@ class Sketch : NSObject {
                 //                print("\(column), \(row)")
                 //                print(liveCellCount)
                 
-//                //if living cells around a cell is less than 2, the cell dies
-//                if numberOfCellsAliveAround(row: row, column: column) < 2  {
-//                    board[row][column] = false
-//                }
-//                //if living cells around a cell is greater than 3, the cell dies
-//                if numberOfCellsAliveAround(row: row, column: column) > 3  {
-//                    board[row][column] = false
-//                }
-//                //if living cells around a cell is exactly 3, the cell resurge
-//                if numberOfCellsAliveAround(row: row, column: column) == 3  {
-//                    board[row][column] = true
-//                }
+                //                //if living cells around a cell is less than 2, the cell dies
+                //                if numberOfCellsAliveAround(row: row, column: column) < 2  {
+                //                    board[row][column] = false
+                //                }
+                //                //if living cells around a cell is greater than 3, the cell dies
+                //                if numberOfCellsAliveAround(row: row, column: column) > 3  {
+                //                    board[row][column] = false
+                //                }
+                //                //if living cells around a cell is exactly 3, the cell resurge
+                //                if numberOfCellsAliveAround(row: row, column: column) == 3  {
+                //                    board[row][column] = true
+                //                }
             }
             
             //                print("new  \(board[row][column])")
