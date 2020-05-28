@@ -8,13 +8,17 @@ class Sketch : NSObject {
     let canvas : Canvas
     
     // Define a row on the board
-    var row = Array(repeating: false, count: 5)
+    var row = Array(repeating: false, count: 50)
     
     // Define an empty board
     var board: [[Bool]] = []
     
+    // Define an empty board with numbers of living cells around instead of Bollean values
+    var numberRow = Array(repeating: 0, count: 50)
+    var numberBoard: [[Int]] = []
+    
     // Define cell width and height
-    let size = 100
+    let size = 10
     
     
     // This function runs once
@@ -24,11 +28,15 @@ class Sketch : NSObject {
         canvas = Canvas(width: 500, height: 500)
         
         // Iterate through the rows
-        for _ in 1...5 {
+        for _ in 1...50 {
             board.append(row)
         }
         
-        print("Done creating board.")
+        for _ in 1...50 {
+            numberBoard.append(numberRow)
+        }
+        
+        //        print("Done creating board.")
         
         // Modify at a specific position
         //  NOTE: Zero-based
@@ -36,24 +44,29 @@ class Sketch : NSObject {
         //  row is 0, column is 4
         //        board[0][4] = true
         // Test1
-        board[2][2] = true
-        //        board[2][4] = true
-        //        board[2][5] = true
-        //        board[3][4] = true
-        //        board[3][5] = true
-        //        board[3][6] = true
+        board[20][30] = true
+        board[20][31] = true
+        board[20][32] = true
+        board[21][31] = true
+        board[21][32] = true
+        board[21][33] = true
         
     }
     //
     // This function runs repeatedly, forever, to create the animated effect
     func draw() {
         
+        //clear the canvas
+        clearCanvas()
+        //remove the borders for all shapes to make it looks better
+        canvas.drawShapesWithBorders = false
+        
         // Iterate over all the rows and columns
         // Draw a filled black square when a value is true
         for row in 0...board.count - 1 {
             for column in 0...board[row].count - 1 {
                 
-                //                print(board[row][column])
+                canvas.fillColor = .black
                 
                 if board[row][column] == true {
                     
@@ -73,9 +86,12 @@ class Sketch : NSObject {
         for row in 1...board.count - 2 {
             for column in 1...board[row].count - 2 {
                 
-                let liveCellCount = numberOfCellsAliveAround(row: row, column: column)
+                numberBoard[row][column] = numberOfCellsAliveAround(row: row, column: column)
+                //                print("\(column), \(row)")
+                //                print(liveCellCount)
+                
                 //if living cells around a cell is less than 2, the cell dies
-                if liveCellCount < 2  {
+                if numberOfCellsAliveAround(row: row, column: column) < 2  {
                     board[row][column] = false
                 }
                 //                print(numberOfCellsAliveAround(row: row, column: column))
@@ -84,20 +100,36 @@ class Sketch : NSObject {
                 //                    print(board[row][column])
                 //                    print(numberOfCellsAliveAround(row: row, column: column))
                 //if living cells around a cell is greater than 3, the cell dies
-                if liveCellCount > 3  {
+                if numberOfCellsAliveAround(row: row, column: column) > 3  {
                     board[row][column] = false
                 }
                 //if living cells around a cell is exactly 3, the cell resurge
-                if liveCellCount == 3  {
+                if numberOfCellsAliveAround(row: row, column: column) == 3  {
                     board[row][column] = true
                 }
             }
             
             //                print("new  \(board[row][column])")
+        }
+        for row in 1...board.count - 2 {
+            for column in 1...board[row].count - 2 {
+                
+                
+                //if living cells around a cell is less than 2, the cell dies
+                if numberBoard[row][column] < 2  {
+                    board[row][column] = false
+                }
+                //if living cells around a cell is greater than 3, the cell dies
+                if numberBoard[row][column] > 3  {
+                    board[row][column] = false
+                }
+                //if living cells around a cell is exactly 3, the cell resurge
+                if numberBoard[row][column] == 3  {
+                    board[row][column] = true
+                }
+            }
             
-            
-            
-            
+            //                print("new  \(board[row][column])")
         }
     }
     // Introduce a function that checks how many living and dead cells are around a cell
@@ -106,17 +138,25 @@ class Sketch : NSObject {
         // Need to find a way when index is out of range?
         for x in row-1...row+1 {
             for y in column-1...column+1{
-                if board[x][y] == true && x != row && y != column {
+                if board[x][y] == true{
                     numberAlive += 1
+                    //                    && x != row && y != column
                 }
-                //                   if board[row][column] == true {
-                //                       numberAlive -= 1
-                //                   }
+                if x == row && y == column && board[row][column] == true {
+                    //                    print("\(column), \(row)")
+                    numberAlive -= 1
+                }
             }
         }
         return numberAlive
     }
-
+    func clearCanvas() {
+        canvas.drawShapesWithFill = true
+        canvas.drawShapesWithBorders = false
+        canvas.fillColor = .white
+        canvas.drawRectangle(at: Point(x:0, y:0), width: canvas.width, height: canvas.height)
+        canvas.drawShapesWithBorders = true
+    }
 }
 
 
