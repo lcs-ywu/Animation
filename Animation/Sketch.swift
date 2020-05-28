@@ -43,13 +43,17 @@ class Sketch : NSObject {
         //
         //  row is 0, column is 4
         //        board[0][4] = true
-        // Test1
+        //NOTE: Initial values here
         board[20][30] = true
         board[20][31] = true
         board[20][32] = true
         board[21][31] = true
         board[21][32] = true
         board[21][33] = true
+        
+        board[20][33] = true
+        board[21][34] = true
+        board[22][34] = true
         
     }
     //
@@ -90,23 +94,18 @@ class Sketch : NSObject {
                 //                print("\(column), \(row)")
                 //                print(liveCellCount)
                 
-                //if living cells around a cell is less than 2, the cell dies
-                if numberOfCellsAliveAround(row: row, column: column) < 2  {
-                    board[row][column] = false
-                }
-                //                print(numberOfCellsAliveAround(row: row, column: column))
-                //print the number of living cells around a cell if it's not zero to find why the animation isn't working endlessly
-                //                if numberOfCellsAliveAround(row: row, column: column) != 0 && board[row][column] == true{
-                //                    print(board[row][column])
-                //                    print(numberOfCellsAliveAround(row: row, column: column))
-                //if living cells around a cell is greater than 3, the cell dies
-                if numberOfCellsAliveAround(row: row, column: column) > 3  {
-                    board[row][column] = false
-                }
-                //if living cells around a cell is exactly 3, the cell resurge
-                if numberOfCellsAliveAround(row: row, column: column) == 3  {
-                    board[row][column] = true
-                }
+//                //if living cells around a cell is less than 2, the cell dies
+//                if numberOfCellsAliveAround(row: row, column: column) < 2  {
+//                    board[row][column] = false
+//                }
+//                //if living cells around a cell is greater than 3, the cell dies
+//                if numberOfCellsAliveAround(row: row, column: column) > 3  {
+//                    board[row][column] = false
+//                }
+//                //if living cells around a cell is exactly 3, the cell resurge
+//                if numberOfCellsAliveAround(row: row, column: column) == 3  {
+//                    board[row][column] = true
+//                }
             }
             
             //                print("new  \(board[row][column])")
