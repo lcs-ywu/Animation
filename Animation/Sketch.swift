@@ -39,7 +39,7 @@ class Sketch : NSObject {
         }
         
         // Initial values HERE
-        //NOTE: borad[y-value][x-value]
+        //NOTE: board[y-value][x-value]
         
         // Pattern 1: LWSS and Glider
         
