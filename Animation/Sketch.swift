@@ -14,8 +14,10 @@ class Sketch : NSObject {
     var board: [[Bool]] = []
     
     // Define an empty board with numbers of living cells around instead of Bollean values
-    var numberRow = Array(repeating: 0, count: 50)
     var numberBoard: [[Int]] = []
+    
+    // Define and row in the number board
+    var numberRow = Array(repeating: 0, count: 50)
     
     // Define cell width and height
     let size = 10
@@ -36,23 +38,65 @@ class Sketch : NSObject {
             numberBoard.append(numberRow)
         }
         
-        //        print("Done creating board.")
+        // Initial values HERE
+        //NOTE: borad[y-value][x-value]
         
-        // Modify at a specific position
-        //  NOTE: Zero-based
-        //
-        //  row is 0, column is 4
-        //        board[0][4] = true
-        //NOTE: Initial values here
-        board[20][20] = true
-        board[21][20] = true
-        board[22][20] = true
-        board[23][20] = true
-        board[23][21] = true
-        board[23][22] = true
-        board[22][23] = true
-        board[19][21] = true
-        board[19][23] = true
+        // Pattern 1: LWSS and Glider
+        
+//        board[10][40] = true
+//        board[11][40] = true
+//        board[12][40] = true
+//        board[13][40] = true
+//        board[13][41] = true
+//        board[13][42] = true
+//        board[12][43] = true
+//        board[9][41] = true
+//        board[9][43] = true
+        
+        // Pattern 2: Gosper's Glider Gun
+        board[40][8] = true
+        board[41][8] = true
+        board[40][9] = true
+        board[41][9] = true
+        board[39][20] = true
+        board[40][20] = true
+        board[41][20] = true
+        board[42][20] = true
+        board[43][20] = true
+        board[38][21] = true
+        board[40][21] = true
+        board[41][21] = true
+        board[42][21] = true
+        board[44][21] = true
+        board[39][22] = true
+        board[43][22] = true
+        board[40][23] = true
+        board[41][23] = true
+        board[42][23] = true
+        board[41][24] = true
+        board[39][25] = true
+        board[40][25] = true
+        board[38][26] = true
+        board[40][26] = true
+        board[38][27] = true
+        board[40][27] = true
+        board[39][28] = true
+        board[36][31] = true
+        board[37][31] = true
+        board[39][31] = true
+        board[41][31] = true
+        board[42][31] = true
+        board[36][32] = true
+        board[42][32] = true
+        board[37][33] = true
+        board[41][33] = true
+        board[38][34] = true
+        board[39][34] = true
+        board[40][34] = true
+        board[38][42] = true
+        board[39][42] = true
+        board[38][43] = true
+        board[39][43] = true
     }
     //
     // This function runs repeatedly, forever, to create the animated effect
@@ -60,6 +104,7 @@ class Sketch : NSObject {
         
         //clear the canvas
         clearCanvas()
+        
         //remove the borders for all shapes to make it looks better
         canvas.drawShapesWithBorders = false
         
@@ -67,50 +112,29 @@ class Sketch : NSObject {
         // Draw a filled black square when a value is true
         for row in 0...board.count - 1 {
             for column in 0...board[row].count - 1 {
-                
                 canvas.fillColor = .black
-                
                 if board[row][column] == true {
-                    
                     canvas.drawShapesWithFill = true
-                    
                 } else {
-                    
                     canvas.drawShapesWithFill = false
-                    
                 }
-                
                 canvas.drawRectangle(at: Point(x: column * size, y: row * size), width: size, height: size)
+                // Try make the cells round
+//                canvas.drawEllipse(at: Point(x: column * size, y: row * size), width: size, height: size)
                 
             }
         }
-        // Add the rules of the Game
+        // Count the number of cells alive around each cell and stored the data in the number board
         for row in 1...board.count - 2 {
             for column in 1...board[row].count - 2 {
                 
                 numberBoard[row][column] = numberOfCellsAliveAround(row: row, column: column)
-                //                print("\(column), \(row)")
-                //                print(liveCellCount)
-                
-                //                //if living cells around a cell is less than 2, the cell dies
-                //                if numberOfCellsAliveAround(row: row, column: column) < 2  {
-                //                    board[row][column] = false
-                //                }
-                //                //if living cells around a cell is greater than 3, the cell dies
-                //                if numberOfCellsAliveAround(row: row, column: column) > 3  {
-                //                    board[row][column] = false
-                //                }
-                //                //if living cells around a cell is exactly 3, the cell resurge
-                //                if numberOfCellsAliveAround(row: row, column: column) == 3  {
-                //                    board[row][column] = true
-                //                }
+               
             }
-            
-            //                print("new  \(board[row][column])")
         }
+        // Change the status of every cell
         for row in 1...board.count - 2 {
             for column in 1...board[row].count - 2 {
-                
                 
                 //if living cells around a cell is less than 2, the cell dies
                 if numberBoard[row][column] < 2  {
@@ -126,7 +150,6 @@ class Sketch : NSObject {
                 }
             }
             
-            //                print("new  \(board[row][column])")
         }
     }
     // Introduce a function that checks how many living and dead cells are around a cell
@@ -137,10 +160,8 @@ class Sketch : NSObject {
             for y in column-1...column+1{
                 if board[x][y] == true{
                     numberAlive += 1
-                    //                    && x != row && y != column
                 }
                 if x == row && y == column && board[row][column] == true {
-                    //                    print("\(column), \(row)")
                     numberAlive -= 1
                 }
             }
